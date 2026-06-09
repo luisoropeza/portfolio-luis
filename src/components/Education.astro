@@ -1,0 +1,131 @@
+---
+const education = [
+  {
+    degree: "B.Sc. in Systems Engineering",
+    institution: "Universidad Mayor de San Simón",
+    location: "Cochabamba, Bolivia",
+    period: "2017 – 2024",
+    icon: "🎓",
+    color: "blue",
+  },
+  {
+    degree: "Postgraduate Diploma in Enterprise Software Development",
+    institution: "Universidad Mayor de San Simón",
+    location: "Specialization: Spring Boot, React.js, PostgreSQL",
+    period: "2023 – 2024",
+    icon: "📜",
+    color: "violet",
+  },
+];
+
+const colorMap: Record<string, { card: string; icon: string; period: string }> = {
+  blue: {
+    card: "border-blue-100 hover:border-blue-300",
+    icon: "bg-blue-100 text-blue-600",
+    period: "bg-blue-50 text-blue-600",
+  },
+  violet: {
+    card: "border-violet-100 hover:border-violet-300",
+    icon: "bg-violet-100 text-violet-600",
+    period: "bg-violet-50 text-violet-600",
+  },
+};
+---
+
+<section id="education" class="py-24 bg-white">
+  <div class="max-w-6xl mx-auto px-6">
+
+    <div class="section-header text-center mb-16 opacity-0 translate-y-8 transition-all duration-700">
+      <p class="text-blue-600 font-semibold text-sm tracking-widest uppercase mb-2">Academic background</p>
+      <h2 class="text-3xl sm:text-4xl font-bold text-slate-900">Education</h2>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-6 mb-16">
+      {education.map((item, i) => {
+        const c = colorMap[item.color];
+        return (
+          <div
+            class={`edu-card bg-white border-2 ${c.card} rounded-2xl p-7 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-300 opacity-0 translate-y-8 flex gap-5`}
+            style={`transition-delay: ${i * 120}ms`}
+          >
+            <div class={`flex-shrink-0 w-12 h-12 rounded-xl flex items-center justify-center text-2xl ${c.icon}`}>
+              {item.icon}
+            </div>
+            <div>
+              <span class={`inline-block text-xs font-semibold px-2.5 py-1 rounded-full mb-2 ${c.period}`}>
+                {item.period}
+              </span>
+              <h3 class="text-base font-bold text-slate-900 mb-0.5">{item.degree}</h3>
+              <p class="text-sm font-semibold text-slate-600">{item.institution}</p>
+              <p class="text-xs text-slate-400 mt-0.5">{item.location}</p>
+            </div>
+          </div>
+        );
+      })}
+    </div>
+
+    <!-- Courses -->
+    <div class="edu-card opacity-0 translate-y-8 transition-all duration-700 mb-10" style="transition-delay: 240ms">
+      <h3 class="text-center text-sm font-semibold text-slate-400 uppercase tracking-widest mb-6">Courses</h3>
+      <div class="grid sm:grid-cols-2 gap-3">
+        {[
+          { title: "Hands-On Advanced SQL Server: Strategies and Techniques", platform: "LinkedIn Learning", year: "2026" },
+          { title: "AI-Powered Software Development: Coding, Testing, and System Design", platform: "LinkedIn Learning", year: "2026" },
+          { title: "C# and .NET Essential Training", platform: "LinkedIn Learning", year: "2026" },
+          { title: "Creating Spring Boot Microservices", platform: "LinkedIn Learning", year: "2026" },
+          { title: "Introduction to AWS Course: Cloud Computing Fundamentals", platform: "Platzi", year: "2026" },
+          { title: "Introduction to AWS: Compute, Storage, and Databases", platform: "Platzi", year: "2026" },
+        ].map((course) => (
+          <div class="flex items-start gap-3 bg-slate-50 rounded-xl p-4 border border-slate-100 hover:border-blue-200 hover:bg-blue-50/30 transition-all duration-200">
+            <span class="text-blue-400 mt-0.5 flex-shrink-0">▸</span>
+            <div>
+              <p class="text-sm font-medium text-slate-700 leading-snug">{course.title}</p>
+              <p class="text-xs text-slate-400 mt-0.5">{course.platform} · {course.year}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- Languages -->
+    <div class="edu-card opacity-0 translate-y-8 transition-all duration-700" style="transition-delay: 360ms">
+      <h3 class="text-center text-sm font-semibold text-slate-400 uppercase tracking-widest mb-6">Languages</h3>
+      <div class="flex flex-wrap justify-center gap-6">
+        {[
+          { lang: "Spanish", level: "Native", pct: 100, color: "bg-blue-500" },
+          { lang: "English", level: "Intermediate (B1)", pct: 55, color: "bg-violet-400" },
+        ].map((l) => (
+          <div class="flex flex-col items-center gap-2 min-w-40">
+            <p class="font-semibold text-slate-700">{l.lang}</p>
+            <p class="text-xs text-slate-400">{l.level}</p>
+            <div class="w-full h-2 bg-slate-100 rounded-full overflow-hidden">
+              <div
+                class={`h-full rounded-full ${l.color} transition-all duration-1000`}
+                style={`width: ${l.pct}%`}
+              ></div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<script>
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.remove("opacity-0", "translate-y-8");
+          entry.target.classList.add("opacity-100", "translate-y-0");
+        }
+      });
+    },
+    { threshold: 0.1 }
+  );
+
+  document.querySelectorAll("#education .section-header, #education .edu-card").forEach((el) => {
+    observer.observe(el);
+  });
+</script>

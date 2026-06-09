@@ -1,0 +1,165 @@
+---
+const projects = [
+  {
+    title: "Inventory Management System",
+    status: "In Development",
+    period: "2025 – Present",
+    type: "Personal Project",
+    description:
+      "Production-grade multi-tenant REST API built with .NET 10 and Clean Architecture. Covers product tracking, stock movements, purchases, sales, branch/warehouse management, and audit history. Features JWT auth with refresh token rotation, soft deletes, the Strategy pattern for inventory movements, and bulk Excel import/export.",
+    tags: [".NET 10", "Clean Architecture", "PostgreSQL", "JWT", "xUnit"],
+    icon: "📦",
+    accent: "blue",
+  },
+  {
+    title: "Healthcare Appointment Scheduler",
+    status: "In Development",
+    period: "2025 – 2026",
+    type: "Personal Project",
+    description:
+      "Full-stack appointment scheduling system for healthcare providers. The Spring Boot backend manages provider availability and appointment lifecycle (PENDING → CONFIRMED / CANCELLED), sends HTML email confirmations, and integrates with n8n for WhatsApp-based client flows. React frontend built with TanStack Router and TanStack Query.",
+    tags: [
+      "Spring Boot",
+      "Java",
+      "React 19",
+      "TanStack Query",
+      "PostgreSQL",
+      "n8n",
+    ],
+    icon: "🏥",
+    accent: "emerald",
+  },
+  {
+    title: "Personal Finance Tracker",
+    status: "Completed",
+    period: "2025 – 2026",
+    type: "Personal Project",
+    description:
+      "Offline-first mobile app built with Expo and React Native. Tracks accounts, transactions, recurring income sources, and fixed expenses entirely in a local SQLite database. Includes a dashboard with monthly income/expense summaries, day-grouped transaction history with filter chips, and a dark/light mode toggle.",
+    tags: ["Expo", "React Native", "SQLite", "Zustand", "TypeScript"],
+    icon: "💰",
+    accent: "orange",
+  },
+  {
+    title: "Leave & Absence Management System",
+    status: "Completed",
+    period: "2024",
+    type: "Postgraduate Diploma Project",
+    description:
+      "Built the backend with Spring Boot — JWT authentication, REST API design, and relational database modeling. Developed the frontend with Vue.js, integrating views and forms with the backend API.",
+    tags: ["Spring Boot", "Vue.js", "PostgreSQL", "REST API", "JWT"],
+    icon: "📅",
+    accent: "violet",
+  },
+];
+
+const statusBadgeMap: Record<string, string> = {
+  "In Development": "bg-amber-50 text-amber-600 border border-amber-200",
+  Completed: "bg-emerald-50 text-emerald-600 border border-emerald-200",
+};
+
+const accentMap: Record<string, { tag: string; icon: string }> = {
+  blue: {
+    tag: "bg-blue-50 text-blue-700 border-blue-100",
+    icon: "bg-blue-100 text-blue-600",
+  },
+  violet: {
+    tag: "bg-violet-50 text-violet-700 border-violet-100",
+    icon: "bg-violet-100 text-violet-600",
+  },
+  emerald: {
+    tag: "bg-emerald-50 text-emerald-700 border-emerald-100",
+    icon: "bg-emerald-100 text-emerald-600",
+  },
+  orange: {
+    tag: "bg-orange-50 text-orange-700 border-orange-100",
+    icon: "bg-orange-100 text-orange-600",
+  },
+};
+---
+
+<section id="projects" class="py-24 bg-slate-50">
+  <div class="max-w-6xl mx-auto px-6">
+    <div
+      class="section-header text-center mb-16 opacity-0 translate-y-8 transition-all duration-700"
+    >
+      <p
+        class="text-blue-600 font-semibold text-sm tracking-widest uppercase mb-2"
+      >
+        What I've built
+      </p>
+      <h2 class="text-3xl sm:text-4xl font-bold text-slate-900">Projects</h2>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-8">
+      {
+        projects.map((project, i) => {
+          const acc = accentMap[project.accent];
+          return (
+            <div
+              class={`project-card bg-white rounded-2xl p-7 border border-slate-100 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 opacity-0 translate-y-8 flex flex-col`}
+              style={`transition-delay: ${i * 120}ms`}
+            >
+              <div class="flex items-start justify-between gap-4 mb-5">
+                <div
+                  class={`w-12 h-12 rounded-xl flex items-center justify-center text-2xl ${acc.icon}`}
+                >
+                  {project.icon}
+                </div>
+                <span
+                  class={`text-xs font-semibold px-2.5 py-1 rounded-full ${statusBadgeMap[project.status]}`}
+                >
+                  {project.status}
+                </span>
+              </div>
+
+              <div class="mb-1">
+                <h3 class="text-lg font-bold text-slate-900">
+                  {project.title}
+                </h3>
+              </div>
+              <p class="text-xs text-slate-400 mb-1">{project.type}</p>
+              <p class="text-xs font-medium text-slate-400 mb-4">
+                {project.period}
+              </p>
+
+              <p class="text-sm text-slate-600 leading-relaxed mb-6 flex-1">
+                {project.description}
+              </p>
+
+              <div class="flex flex-wrap gap-2">
+                {project.tags.map((tag) => (
+                  <span
+                    class={`text-xs font-medium px-3 py-1 rounded-lg border ${acc.tag}`}
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            </div>
+          );
+        })
+      }
+    </div>
+  </div>
+</section>
+
+<script>
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.remove("opacity-0", "translate-y-8");
+          entry.target.classList.add("opacity-100", "translate-y-0");
+        }
+      });
+    },
+    { threshold: 0.1 },
+  );
+
+  document
+    .querySelectorAll("#projects .section-header, #projects .project-card")
+    .forEach((el) => {
+      observer.observe(el);
+    });
+</script>
